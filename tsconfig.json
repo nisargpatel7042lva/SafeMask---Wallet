@@ -3,7 +3,12 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "react-native",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "noEmit": false
   },
   "include": [
     "**/*.ts",
