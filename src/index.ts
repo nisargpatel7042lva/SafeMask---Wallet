@@ -1,0 +1,12 @@
+export { MeshcryptWallet } from './wallet';
+export * from './types';
+export { KeyManager } from './core/keyManager';
+export { CommitmentScheme, StealthAddressGenerator, ZeroKnowledgeProver } from './crypto/primitives';
+export { EthereumAdapter } from './blockchain/ethereum';
+export { ZcashAdapter } from './blockchain/zcash';
+export { MeshNetwork } from './mesh/network';
+export { NFCHandler, NFCTransactionManager } from './nfc/handler';
+export { UnifiedAddressResolver, CrossChainResolver } from './address/resolver';
+export { IntentEngine, HTLCManager, AtomicSwapCoordinator } from './settlement/intent';
+export { PrivacyAnalyticsEngine } from './analytics/engine';
+export { CryptoUtils } from './utils/crypto';
