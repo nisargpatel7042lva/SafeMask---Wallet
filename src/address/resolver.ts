@@ -126,7 +126,7 @@ export class UnifiedAddressResolver {
       const data = JSON.parse(json);
 
       const mapping = new Map(Object.entries(data.chains));
-      this.addressMappings.set(data.metaAddress, mapping);
+      this.addressMappings.set(data.metaAddress, mapping as Map<string, string>);
       this.encryptionKeys.set(data.metaAddress, encryptionKey);
 
       return data.metaAddress;

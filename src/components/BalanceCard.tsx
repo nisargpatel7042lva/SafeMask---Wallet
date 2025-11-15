@@ -1,0 +1,107 @@
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+interface BalanceCardProps {
+  totalBalance: string;
+  change: string;
+  privacyScore: string;
+  balanceHidden: boolean;
+  onToggleBalance: () => void;
+}
+
+export default function BalanceCard({
+  totalBalance,
+  change,
+  privacyScore,
+  balanceHidden,
+  onToggleBalance,
+}: BalanceCardProps) {
+  return (
+    <View style={styles.card}>
+      <View style={styles.content}>
+        <View style={styles.leftSection}>
+          <Text style={styles.label}>Total Balance</Text>
+          <Text style={styles.balance}>{balanceHidden ? '••••••' : totalBalance}</Text>
+          <Text style={styles.change}>{change} this month</Text>
+        </View>
+
+        <View style={styles.rightSection}>
+          <TouchableOpacity style={styles.hideButton} onPress={onToggleBalance}>
+            <Text style={styles.hideButtonText}>
+              {balanceHidden ? 'Show' : 'Hide'} Balance
+            </Text>
+          </TouchableOpacity>
+          <View style={styles.privacyBadge}>
+            <Text style={styles.privacyLabel}>Privacy Score</Text>
+            <Text style={styles.privacyScore}>{privacyScore}</Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: '#111111',
+    borderRadius: 16,
+    padding: 24,
+    borderWidth: 1,
+    borderColor: '#1f1f1f',
+  },
+  content: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  leftSection: {
+    flex: 1,
+  },
+  label: {
+    fontSize: 13,
+    color: '#9ca3af',
+    marginBottom: 8,
+  },
+  balance: {
+    fontSize: 36,
+    fontWeight: '700',
+    color: '#ffffff',
+    marginBottom: 8,
+  },
+  change: {
+    fontSize: 13,
+    color: '#6b7280',
+  },
+  rightSection: {
+    alignItems: 'flex-end',
+    gap: 12,
+  },
+  hideButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 8,
+  },
+  hideButtonText: {
+    fontSize: 13,
+    color: '#ffffff',
+  },
+  privacyBadge: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: 'rgba(168, 85, 247, 0.1)',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(168, 85, 247, 0.2)',
+    alignItems: 'center',
+  },
+  privacyLabel: {
+    fontSize: 11,
+    color: '#9ca3af',
+    marginBottom: 4,
+  },
+  privacyScore: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#C084FC',
+  },
+});

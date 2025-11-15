@@ -5,10 +5,7 @@ async function demoBasicOperations() {
 
   const wallet = new MeshcryptWallet({
     network: 'testnet',
-    enableMesh: true,
-    enableNFC: true,
-    privacyLevel: 'maximum',
-    meshProtocols: ['bluetooth', 'wifi', 'lora']
+    privacyLevel: 'medium'
   });
 
   console.log('1. Initializing wallet with new mnemonic...');
@@ -87,7 +84,7 @@ async function demoCrossChainSwap() {
     network: 'testnet',
     enableMesh: false,
     enableNFC: false,
-    privacyLevel: 'balanced'
+    privacyLevel: 'medium'
   });
 
   await wallet.initialize();

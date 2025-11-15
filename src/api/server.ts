@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { MeshcryptWallet } from './wallet';
-import { WalletConfig, TransactionRequest } from './types';
+import { MeshcryptWallet } from '../wallet';
+import { WalletConfig, TransactionRequest } from '../types';
 
 export class WalletAPI {
   private app: express.Application;
