@@ -12,6 +12,8 @@ target/
 *.dylib
 *.dll
 *.exe
+#secret files
+working.json
 
 # Expo
 .expo/
