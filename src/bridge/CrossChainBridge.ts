@@ -517,9 +517,6 @@ export class CrossChainBridge {
     };
   }
 
-  /**
-   * Initiate a cross-chain transfer
-   */
   public async initiateTransfer(params: {
     sourceChain: string;
     targetChain: string;
@@ -529,14 +526,18 @@ export class CrossChainBridge {
   }): Promise<string> {
     logger.info('Initiating cross-chain transfer', params);
     
-    // Use the existing bridge method
-    return await this.bridge(
-      params.tokenAddress,
-      params.amount,
-      params.sourceChain,
-      params.targetChain,
-      params.recipient
-    );
+    // Use the existing lockTokens method
+    const asset: BridgeAsset = {
+      sourceChain: params.sourceChain,
+      targetChain: params.targetChain,
+      tokenAddress: params.tokenAddress,
+      amount: params.amount,
+      sender: params.recipient, // TODO: Get actual sender
+      recipient: params.recipient
+    };
+    const privateKey = '0x0000000000000000000000000000000000000000000000000000000000000000'; // TODO: Get from wallet
+    const lockEvent = await this.lockAssets(asset, privateKey);
+    return lockEvent.lockId;
   }
 
   /**

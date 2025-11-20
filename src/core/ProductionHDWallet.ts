@@ -22,7 +22,7 @@ const ecc = {
     try {
       const hex = Buffer.from(d).toString('hex');
       const point = secp256k1.Point.fromHex(hex);
-      return Buffer.from(point.toHex(compressed !== false));
+      return Buffer.from(point.toHex(compressed !== false), 'hex');
     } catch {
       return null;
     }
@@ -63,9 +63,8 @@ const ecc = {
   },
   verify: (h: Uint8Array, Q: Uint8Array, signature: Uint8Array): boolean => {
     try {
-      const qHex = Buffer.from(Q).toString('hex');
-      const sigHex = Buffer.from(signature).toString('hex');
-      return secp256k1.verify(sigHex, h, qHex);
+      // secp256k1.verify(signature, message, publicKey) accepts Uint8Array or hex
+      return secp256k1.verify(signature, h, Q);
     } catch {
       return false;
     }
