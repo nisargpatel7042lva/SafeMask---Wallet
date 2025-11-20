@@ -200,13 +200,13 @@ export class WalletIntegration {
       const targetAddress = await this.wallet.getAddress(toChain);
       
       // Use the bridge's initiateTransfer method
-      const bridgeTxId = await this.bridge.initiateTransfer(
-        fromChain as any,
-        toChain as any,
-        fromAmount,
-        targetAddress,
-        fromToken
-      );
+      const bridgeTxId = await this.bridge.initiateTransfer({
+        sourceChain: fromChain,
+        targetChain: toChain,
+        tokenAddress: fromToken,
+        amount: fromAmount,
+        recipient: targetAddress,
+      });
 
       return bridgeTxId;
     }
@@ -261,11 +261,12 @@ export class WalletIntegration {
     targetChain: string,
     amount: string
   ): Promise<string[]> {
-    return this.bridge.getOptimalRoute(
+    const result = await this.bridge.getOptimalRoute(
       sourceChain as any,
       targetChain as any,
       amount
     );
+    return result.route;
   }
 
   /**

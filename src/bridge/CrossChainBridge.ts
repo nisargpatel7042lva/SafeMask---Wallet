@@ -516,6 +516,50 @@ export class CrossChainBridge {
       recipient: ethers.ZeroAddress,
     };
   }
+
+  /**
+   * Initiate a cross-chain transfer
+   */
+  public async initiateTransfer(params: {
+    sourceChain: string;
+    targetChain: string;
+    tokenAddress: string;
+    amount: string;
+    recipient: string;
+  }): Promise<string> {
+    logger.info('Initiating cross-chain transfer', params);
+    
+    // Use the existing bridge method
+    return await this.bridge(
+      params.tokenAddress,
+      params.amount,
+      params.sourceChain,
+      params.targetChain,
+      params.recipient
+    );
+  }
+
+  /**
+   * Get optimal route for cross-chain transfer
+   */
+  public async getOptimalRoute(
+    sourceChain: string,
+    targetChain: string,
+    amount: string
+  ): Promise<{
+    route: string[];
+    estimatedTime: number;
+    estimatedFees: string;
+  }> {
+    logger.info('Finding optimal route', { sourceChain, targetChain, amount });
+    
+    // Simple direct route for now
+    return {
+      route: [sourceChain, targetChain],
+      estimatedTime: 600, // 10 minutes
+      estimatedFees: '0.01', // 0.01 ETH
+    };
+  }
 }
 
 export default CrossChainBridge.getInstance();

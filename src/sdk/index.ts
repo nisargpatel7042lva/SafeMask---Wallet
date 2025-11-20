@@ -17,10 +17,23 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import CrossChainBridge from '../bridge/CrossChainBridge';
+import bridgeInstance from '../bridge/CrossChainBridge';
 import { PrivacyAnalyticsEngine, QueryType } from '../analytics/privacyEngine';
 import { MeshNetwork } from '../mesh/network';
 import { NFCTransactionManager } from '../nfc/handler';
+
+// Type for CrossChainBridge instance
+type CrossChainBridgeType = typeof bridgeInstance;
+
+// Chain enum for supported blockchains
+export enum Chain {
+  Ethereum = 'ethereum',
+  Polygon = 'polygon',
+  Arbitrum = 'arbitrum',
+  Zcash = 'zcash',
+  Bitcoin = 'bitcoin',
+  Solana = 'solana',
+}
 
 // Mock Wallet interface until proper integration
 interface TransactionParams {
@@ -89,7 +102,7 @@ export interface WalletInfo {
  */
 export class ZetarisSDK {
   private wallet: Wallet;
-  private bridge?: CrossChainBridge;
+  private bridge?: CrossChainBridgeType;
   private analytics?: PrivacyAnalyticsEngine;
   private meshNetwork?: MeshNetwork;
   private nfcManager?: NFCTransactionManager;
@@ -106,14 +119,8 @@ export class ZetarisSDK {
    * Initialize optional modules based on configuration
    */
   private initializeModules(): void {
-    // Cross-chain bridge
-    this.bridge = new CrossChainBridge({
-      sourceChain: Chain.Ethereum,
-      targetChain: Chain.Polygon,
-      privacyMode: 'shielded',
-      minConfirmations: 12,
-      relayerEndpoint: 'https://relayer.Zetaris.io',
-    });
+    // Cross-chain bridge - use singleton instance
+    this.bridge = bridgeInstance;
 
     // Privacy analytics
     if (this.config.enableAnalytics) {
@@ -280,24 +287,24 @@ export class ZetarisSDK {
 
     const targetAddress = await this.wallet.getAddress(params.to.toLowerCase());
 
-    return await this.bridge.initiateTransfer(
-      params.from,
-      params.to,
-      params.amount,
-      targetAddress,
-      params.asset
-    );
+    return await this.bridge.initiateTransfer({
+      sourceChain: params.from,
+      targetChain: params.to,
+      tokenAddress: params.asset,
+      amount: params.amount,
+      recipient: targetAddress,
+    });
   }
 
   /**
    * Get bridge transaction status
    */
-  getBridgeStatus(bridgeId: string) {
+  getBridgeStatus(bridgeId: string, chain: string) {
     if (!this.bridge) {
       throw new Error('Bridge not initialized');
     }
 
-    return this.bridge.getBridgeTransaction(bridgeId);
+    return this.bridge.getBridgeStatus(bridgeId, chain);
   }
 
   /**
@@ -308,7 +315,8 @@ export class ZetarisSDK {
       throw new Error('Bridge not initialized');
     }
 
-    return await this.bridge.getOptimalRoute(from, to, amount);
+    const route = await this.bridge.getOptimalRoute(from, to, amount);
+    return route.route;
   }
 
   // ==========================================================================
