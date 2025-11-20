@@ -1,14 +1,3 @@
-/**
- * Real DEX Swap Service - Uniswap V3 & QuickSwap Integration
- * NO MOCK DATA - All swaps are REAL and executed on-chain
- * 
- * Features:
- * - Real-time price quotes from Uniswap/QuickSwap
- * - Actual token swaps with slippage protection
- * - Gas estimation and fee calculation
- * - Transaction verification on block explorers
- */
-
 import { ethers } from 'ethers';
 import { Token, CurrencyAmount, TradeType, Percent } from '@uniswap/sdk-core';
 import { Pool, Route, SwapQuoter, Trade, SwapRouter } from '@uniswap/v3-sdk';

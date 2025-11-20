@@ -1,22 +1,9 @@
-/**
- * Production HD Wallet Core - REAL Implementation
- * NO MOCK DATA - Proper BIP39/BIP32/BIP44 implementation
- * 
- * Features:
- * - Real mnemonic generation (12/24 words)
- * - Hierarchical deterministic key derivation
- * - Multi-chain address derivation
- * - Secure seed storage (encrypted)
- * - Real transaction signing
- */
-
 import * as bip39 from 'bip39';
 import { BIP32Factory, BIP32Interface } from 'bip32';
 import * as ecc from 'tiny-secp256k1';
 import { ethers } from 'ethers';
 import * as logger from '../utils/logger';
 
-// Initialize BIP32
 const bip32 = BIP32Factory(ecc);
 
 export interface WalletAccount {
