@@ -3,7 +3,7 @@ import oneInchAggregator from '../dex/OneInchAggregator';
 import wormholeBridge from '../bridge/WormholeBridge';
 import * as logger from '../utils/logger';
 
-interface Intent {
+export interface Intent {
   id: string;
   user: string;
   inputToken: string;
@@ -18,7 +18,7 @@ interface Intent {
   createdAt: number;
 }
 
-enum IntentStatus {
+export enum IntentStatus {
   Created = 'created',
   FindingSolutions = 'finding_solutions',
   SolutionsFound = 'solutions_found',
